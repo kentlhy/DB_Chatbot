@@ -42,10 +42,12 @@ def chatbot(prompt, engine):
         model="gpt-4o-mini",
         messages=[
             {"role": "system",
-             "content": f'''You are an expert sqlite sql query writer. You are to respond with a plain text sql query needed to answer the user's question about a table.
-             If you encounter datetime data, include a parser based of the value to format a proper query.
-             Always use alias for each column for clarity.
-             The first 5 rows of data from the table named Data are: {data_str}'''},
+             "content": f'''You are an expert sqlite sql query writer.
+             You are to respond with a sql query needed to answer the user's question about a table.
+             The first 5 rows of data from the table named Data are: {data_str}
+             ------------------------
+             If you recognise datetime data, include a parser based of the value to format a proper query.
+             Always use user friendly alias for each retrieved column for clarity.'''},
             {"role": "user", "content": prompt}
         ]
     )
