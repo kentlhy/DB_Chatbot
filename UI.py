@@ -7,7 +7,6 @@ import os
 
 # Define the path to the SQLite database
 DB_PATH = 'fraud.db'
-
 engine = create_engine(f'sqlite:///{DB_PATH}', echo=True)
 
 if 'have_data' not in st.session_state:
@@ -83,11 +82,6 @@ def main():
         # Display the top 3 rows
         st.write("Top 3 rows of the data:")
         st.dataframe(df_first_3)
-
-        # Display the data types
-        st.write("Data types of the columns:")
-        st.write(df_first_3.dtypes)
-
 
         # Chat interface
         welcome_message = """
