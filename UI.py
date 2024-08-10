@@ -18,7 +18,6 @@ def load_csv_to_db(csv_file):
     """Load the CSV data into the SQLite database."""
     df = pd.read_csv(csv_file, infer_datetime_format=True)
 
-    """Clean column names by removing spaces and special characters."""
     df.columns = df.columns.str.replace('[^a-zA-Z0-9]', '_', regex=True).str.strip().str.lower()
     # Display the data types
     print(df.dtypes)
@@ -61,17 +60,19 @@ def chatbot(prompt, engine):
 
 
 def main():
-    st.title("Chatbot on CSV datassss")
+    st.title("Chatbot on CSV data")
 
     uploaded_file = st.file_uploader("Upload a CSV file", type="csv")
 
     if uploaded_file is not None and st.button("Upload"):
         st.write("Loading CSV data into the database...")
 
-        # Load CSV data into the SQLite database
-        df = load_csv_to_db(uploaded_file)
+        with st.spinner("Loading CSV data into the database..."):
+            # Load CSV data into the SQLite database
+            df = load_csv_to_db(uploaded_file)
+            st.session_state.have_data = 1
 
-        st.session_state.have_data = 1
+        st.success("CSV data has been successfully loaded into the database!")
 
     if st.session_state.have_data == 1:
         # Get the top 3 rows
