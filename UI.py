@@ -65,7 +65,6 @@ def main():
     uploaded_file = st.file_uploader("Upload a CSV file", type="csv")
 
     if uploaded_file is not None and st.button("Upload"):
-        st.write("Loading CSV data into the database...")
 
         with st.spinner("Loading CSV data into the database..."):
             # Load CSV data into the SQLite database
