@@ -5,8 +5,6 @@ from openai import OpenAI
 import time
 import ast
 
-
-
 if 'have_data' not in st.session_state:
     st.session_state.have_data = 0
 if "messages" not in st.session_state:
@@ -149,7 +147,7 @@ def main():
 
     if st.session_state.have_data == 1:
 
-        st.write("First 3 rows of data from the database:")
+        st.write(f"CVS loaded to {st.session_state.db_type} database. First 3 rows of data from the database:")
         try:
             with st.session_state.engine.connect() as conn:
                 df_first_3 = pd.read_sql_query("SELECT * FROM Data LIMIT 3", conn.connection)
