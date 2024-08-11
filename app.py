@@ -161,8 +161,8 @@ def main():
         st.markdown("---")
 
         welcome_message = """
-            <p>Hello there! 😊</p>
-            <p>Welcome to your personal assistant! I’m here to help you answer everything about the dataset.</p>
+            <p>Hello and welcome! 😊</p>
+            <p>I’m your personal assistant, here to help you with all your dataset needs. Just ask, and I’ll help with insights, data transformations, and queries!</p>
         """
 
         # Initialize session state variables
