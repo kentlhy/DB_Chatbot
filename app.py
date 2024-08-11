@@ -114,12 +114,12 @@ def main():
     st.title("SQL Chatbot on CSV Data")
     uploaded_file = st.file_uploader("Upload a CSV file to begin", type="csv", help="Only CSV files are allowed.")
     # Create two columns: one for the button and one for the success message container
-    col1, col2, col3 = st.columns([1, 2, 4])
+    col1, col2, col3 = st.columns([1, 3, 4])
     with col1:
         if uploaded_file is not None:
             with col2:
                 # Create the message container in col2
-                st.session_state.date_conversion = st.checkbox('AI date conversion')
+                st.session_state.date_conversion = st.checkbox('Convert datetime column with AI')
             with col3:
                 # Create the radio button widget
                 st.session_state.db_type = st.radio("Type of DB:", ["SQLite", "MySQL", "PostgreSQL"])
