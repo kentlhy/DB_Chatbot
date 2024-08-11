@@ -114,7 +114,7 @@ def main():
     st.title("SQL Chatbot on CSV Data")
     uploaded_file = st.file_uploader("Upload a CSV file to begin", type="csv", help="Only CSV files are allowed.")
     # Create two columns: one for the button and one for the success message container
-    col1, col2, col3 = st.columns([1, 3, 4])
+    col1, col2, col3 = st.columns([2, 5, 5])
     with col1:
         if uploaded_file is not None:
             with col2:
