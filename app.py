@@ -60,7 +60,7 @@ def load_csv_to_db(csv_file):
 def get_date_type_col(df):
     """Determine which columns in the DataFrame are datetime and their formats."""
     client = OpenAI(api_key=openai_api_key)
-    data_str = df.head(10).to_string(index=False)
+    data_str = df.sample(n=10).to_string(index=False)
     completion2 = client.chat.completions.create(
         model="gpt-4o-mini",
         messages=[
