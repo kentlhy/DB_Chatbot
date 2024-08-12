@@ -169,7 +169,8 @@ def main():
         # Welcome message for the chatbot
         welcome_message = """
             <p>Hello and welcome! 😊</p>
-            <p>I’m your personal assistant, here to help you with all your dataset needs. Just ask, and I’ll help with insights, data transformations, and queries!</p>
+            <p>I’m your personal assistant, here to help you with all your dataset needs.</p>
+            <p>Just ask, and I’ll help with insights, data transformations, and queries!</p>
         """
 
         # Initialize session state messages with the welcome message
