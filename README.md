@@ -59,3 +59,4 @@ Add your OpenAI API key to the Streamlit secrets. Create a file named ```secrets
 1. **Upload a CSV File**: Use the file uploader to select and upload your CSV file.
 2. **Configure Settings**: Optionally enable datetime conversion using AI.
 3. **Interact with the Chatbot**: Ask questions or request data insights through the chat interface.
+**Note**: The SQLite database used in this app is created dynamically during each session and does not persist between sessions. Once the session ends, the database is deleted.
