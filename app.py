@@ -70,9 +70,8 @@ def load_csv_to_db(csv_file):
 
 def get_date_type_col(df):
     """Determine which columns in the DataFrame are datetime and their formats."""
-    openai.api_key = openai_api_key
     data_str = df.sample(n=10).to_string(index=False)
-    response = openai.ChatCompletion.create(
+    response = client.chat.completions.create(
         model="gpt-4o-mini",
         messages=[
             {"role": "system", "content": f'''
@@ -94,8 +93,6 @@ def get_date_type_col(df):
 
 def chatbot(prompt):
     """Generate SQL query to answer user prompt and fetch data from the database."""
-    openai.api_key = openai_api_key
-
     query_sample = "SELECT * FROM DATA ORDER BY RANDOM() LIMIT 5;"
     try:
         with st.session_state.engine.connect() as conn:
@@ -107,7 +104,7 @@ def chatbot(prompt):
     sample_data_str = sample_data.to_string(index=False)
 
     try:
-        response = openai.ChatCompletion.create(
+        response = client.chat.completions.create(
             model="gpt-4o-mini",
             messages=[
                 {"role": "system",
