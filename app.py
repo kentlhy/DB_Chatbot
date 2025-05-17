@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 from sqlalchemy import create_engine
 from sqlalchemy.exc import SQLAlchemyError
-from openai import OpenAI
+import openai
 import ast
 
 # Initialize session state variables if they do not exist
@@ -62,33 +62,31 @@ def load_csv_to_db(csv_file):
 
 def get_date_type_col(df):
     """Determine which columns in the DataFrame are datetime and their formats."""
-    client = OpenAI(api_key=openai_api_key)
+    openai.api_key = openai_api_key
     data_str = df.sample(n=10).to_string(index=False)
-    completion2 = client.chat.completions.create(
+    response = openai.ChatCompletion.create(
         model="gpt-4o-mini",
         messages=[
-            {"role": "system",
-             "content": f'''
-             Given the first 10 rows of data:
-             {data_str}
-             Identify which columns are datetime type and provide the datetime format for a strftime parser.
-             Your answer should only contain a python list that is like [[column name 1, datetime format 1], [column name 2, datetime format 2]]
-             If none is identified, answer []
-             '''},
+            {"role": "system", "content": f'''
+                Given the first 10 rows of data:
+                {data_str}
+                Identify which columns are datetime type and provide the datetime format for a strftime parser.
+                Your answer should only contain a python list like [[column name 1, datetime format 1], [column name 2, datetime format 2]]
+                If none is identified, answer []
+            '''},
             {"role": "user", "content": ""}
         ]
     )
 
     # Extract and parse datetime column formats from the API response
     column_formats = ast.literal_eval(
-        completion2.choices[0].message.content.replace("python", "").replace("```", "").strip())
-    format_dict = {col: fmt for col, fmt in column_formats}
-    return format_dict
+        response.choices[0].message.content.replace("python", "").replace("```", "").strip())
+    return {col: fmt for col, fmt in column_formats}
 
 
 def chatbot(prompt):
     """Generate SQL query to answer user prompt and fetch data from the database."""
-    client = OpenAI(api_key=openai_api_key)
+    openai.api_key = openai_api_key
 
     query_sample = "SELECT * FROM DATA ORDER BY RANDOM() LIMIT 5;"
     try:
@@ -101,7 +99,7 @@ def chatbot(prompt):
     sample_data_str = sample_data.to_string(index=False)
 
     try:
-        completion = client.chat.completions.create(
+        response = openai.ChatCompletion.create(
             model="gpt-4o-mini",
             messages=[
                 {"role": "system",
@@ -121,11 +119,11 @@ def chatbot(prompt):
         st.error(f"Error interacting with the OpenAI API: {str(e)}")
         return None, None
 
-    query = completion.choices[0].message.content.replace("sql", "").replace("```", "").strip()
+    query = response.choices[0].message.content.replace("sql", "").replace("```", "").strip()
     try:
         with st.session_state.engine.connect() as conn:
             data = pd.read_sql_query(query, conn.connection)
-        return completion.choices[0].message.content, data
+        return response.choices[0].message.content, data
     except (SQLAlchemyError, Exception):
         return None, None
 
