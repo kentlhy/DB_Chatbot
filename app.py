@@ -1,10 +1,13 @@
+import os
 import streamlit as st
 import pandas as pd
 from sqlalchemy import create_engine
 from sqlalchemy.exc import SQLAlchemyError
-import openai
+from openai import OpenAI
+from dotenv import load_dotenv
 import ast
 ##
+load_dotenv()
 # Initialize session state variables if they do not exist
 if 'have_data' not in st.session_state:
     st.session_state.have_data = 0
@@ -20,10 +23,15 @@ if 'engine' not in st.session_state:
     st.session_state.engine = create_engine('sqlite:///data.db', echo=False)
 
 # Fetch OpenAI API key from Streamlit secrets
-openai_api_key = st.secrets.get("openai", {}).get("api_key")
-if not openai_api_key:
-    st.error("OpenAI API key not found in secrets.")
+api_key = st.secrets.get("OPENAI_API_KEY") or os.getenv("OPENAI_API_KEY")
+
+# Check if API key is present
+if not api_key:
+    st.error("OpenAI API key not found in Streamlit secrets or environment variables.")
     st.stop()
+
+# Initialize OpenAI client
+client = OpenAI(api_key=api_key)
 
 
 def load_csv_to_db(csv_file):
