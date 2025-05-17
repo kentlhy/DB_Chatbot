@@ -30,8 +30,9 @@ if not api_key:
     st.error("OpenAI API key not found in Streamlit secrets or environment variables.")
     st.stop()
 
-# Initialize OpenAI client
-client = OpenAI(api_key=api_key)
+# Set API key globally (preferred for simplicity and compatibility)
+os.environ["OPENAI_API_KEY"] = api_key
+client = OpenAI()  # ✅ No need to pass api_key directly
 
 
 def load_csv_to_db(csv_file):

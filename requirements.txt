@@ -1,5 +1,5 @@
 streamlit
 SQLAlchemy==1.4.0
 pandas==2.2.2
-openai==1.40.2
+openai>=1.2.4
 python-dotenv
