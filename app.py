@@ -20,7 +20,10 @@ if 'engine' not in st.session_state:
     st.session_state.engine = create_engine('sqlite:///data.db', echo=False)
 
 # Fetch OpenAI API key from Streamlit secrets
-openai_api_key = st.secrets["openai"]["api_key"]
+openai_api_key = st.secrets.get("openai", {}).get("api_key")
+if not openai_api_key:
+    st.error("OpenAI API key not found in secrets.")
+    st.stop()
 
 
 def load_csv_to_db(csv_file):
