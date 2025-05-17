@@ -4,7 +4,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.exc import SQLAlchemyError
 import openai
 import ast
-
+##
 # Initialize session state variables if they do not exist
 if 'have_data' not in st.session_state:
     st.session_state.have_data = 0
